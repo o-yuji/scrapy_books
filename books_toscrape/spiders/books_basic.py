@@ -19,13 +19,7 @@ class BooksBasicSpider(scrapy.Spider):
     def parse_item(self,response):
         title = response.xpath('//div[contains(@class,"product_main")]/h1/text()').get()
         price = response.xpath('//p[@class="price_color"]/text()').get()
-        stock_lists = response.xpath('//div[contains(@class,"product_main")]/p[@class="instock availability"]/text()').getall()
-        stock = ''
-        for stock_list in stock_lists:
-            stock_list = stock_list.strip()
-            if stock_list in 'stock':
-                stock = stock_list
-
+        stock = response.xpath('//div[contains(@class,"product_main")]/p[@class="instock availability"]/text()').getall()
         rating = response.xpath('//div[contains(@class,"product_main")]/p[contains(@class,"star-rating")]/@class').get()
         upc = response.xpath('//tbody/tr/th[contains(text(),"UPC")]/following-sibling::td[1]/text()').get()
         numberOfReviews = response.xpath('//th[contains(text(),"Number of reviews")]/following-sibling::td/text()').get()
